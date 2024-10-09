@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorro_app</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/fdf6782f0a.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+</head>
+<body class="bg-gray-100">
+    <header>
+        <nav class="bg-blue-600 shadow-lg p-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-white text-2xl font-bold">
+                    <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
+                    AhorrAdas
+                </a>
+                <div class="flex space-x-4">
+                    <a class="text-white" id="show-balance">
+                        <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
+                        Balance
+                    </a>
+                    <a class="text-white" id="show-categories">
+                        <i class="fas fa-tag mr-2" aria-hidden="true"></i>
+                        Categorías
+                    </a>
+                    <a class="text-white" id="show-reports">
+                        <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
+                        Reportes
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- --------------------------------------------------- -->
+    <main id="main-content" class="block">
+        <!--  balance contenedor  -->
+
+    <section class="mt-5" id="section-balance"> 
+          <!-- comienzo seccion balance contenedor  -->
+        <!-- balance -->
+            <div class="container mx-auto p-4">
+                <div class="flex justify-center">
+                    <div class="w-1/3 max-w-md container_balance">
+                        <div class="bg-white shadow-md rounded p-4">
+                            <h3 class="text-xl font-bold">Balance</h3>
+                            <div class="flex justify-between items-center my-2">
+                                <p class="text-lg">Ganancias</p>
+                                <p class="text-green-600 text-lg" id="ganancias"></p>
+                            </div>
+                            <div class="flex justify-between items-center my-2">
+                                <p class="text-lg">Gastos</p>
+                                <p class="text-red-600 text-lg" id="gastos"></p>
+                            </div>
+                            <div class="flex justify-between items-center my-2">
+                                <p class="text-xl font-bold">Total</p>
+                                <p class="font-bold text-lg" id="balance-total">0</p>
+                            </div>
+                        </div>
+<!-- fin balance -->
+ <!-- inico filtros  -->
+ <div class="bg-white shadow-md rounded p-4 mt-4">
+    <h3 class="text-xl font-bold">Filtros</h3>
+    <div class="flex justify-between items-center">
+        <a href="#" id="filter-label" class="text-blue-600">Ocultar filtros</a>
+    </div>
+    <div id="filters" class="mt-2">
+        <label for="type-filter" class="block">Tipo</label>
+        <select id="type-filter" class="block w-full border border-gray-300 rounded p-2">
+            <option value="todos">Todos</option>
+            <option value="gasto">Gasto</option>
+            <option value="ganancia">Ganancia</option>
+        </select>
+
+        <label for="filter-category" class="block mt-4">Categoría</label>
+        <select id="filter-category" class="block w-full border border-gray-300 rounded p-2">
+            <option value="todas">Todas</option>
+            <option value="comida">Comida</option>
+            <option value="servicios">Servicios</option>
+            <option value="salidas">Salidas</option>
+            <option value="educacion">Educación</option>
+            <option value="transporte">Transporte</option>
+            <option value="trabajo">Trabajo</option>
+        </select>
+
+        <label for="date-filter" class="block mt-4">Desde</label>
+        <input type="date" id="date-filter" class="block w-full border border-gray-300 rounded p-2">
+
+        <label for="order-filter" class="block mt-4">Ordenar por</label>
+        <select id="order-filter" class="block w-full border border-gray-300 rounded p-2">
+            <option value="mas-recientes">Más recientes</option>
+            <option value="menos-recientes">Menos recientes</option>
+            <option value="mayor-monto">Mayor monto</option>
+            <option value="menor-monto">Menor monto</option>
+            <option value="a-z">A/Z</option>
+            <option value="z-a">Z/A</option>
+        </select>
+    </div>
+</div>
+</div>
+<!-- fin filtros -->
+
+
+
+    <!-- Inicio operaciones contenedor -->
+    <div class="w-full  ml-4">
+        <div class="bg-white shadow-md rounded p-4">
+            <div class="flex justify-between mb-4">
+                <h3 class="text-xl font-bold">Operaciones</h3>
+                <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded" id="show-operation">+ Nueva operación</button>
+            </div>
+
+            <div id="add-operations" class="hidden">
+                <div class="hidden md:flex  font-semibold">
+                    <div class="">Descripción</div>
+                    <div class="">Monto</div>
+                    <div class="">Categoría</div>
+                    <div class=" ">Fecha</div>
+                    <div class=" ">Acciones</div>
+                </div>
+                <div id="operations-table" class="">
+                    <table id="">
+                       
+                        <tbody id="operations-table-body" class="flex flex-col">
+                            <!-- Las operaciones se mostraran aquí -->
+                        </tbody >
+                    </table>
+                </div>
+            </div>
+            <div class="w-full"  id="container_form_operation">
+            <div class="my-6 py-6" id="no-operations">
+                <figure class="w-full">
+                    <img src="image/undraw_growing_re_olpi.svg" alt="Sin operaciones" class="mx-auto">
+                </figure>
+                <h4 class="text-xl font-bold text-center mt-6 mb-4">Sin resultados</h4>
+                <p class="text-center">Cambia los filtros o agrega operaciones</p>
+            </div>
+        </div>
+    </div>
+    <!-- Fin operaciones -->
+</main>
+
+
+
+
+
+
+
+
+
+<script src="main.js"></script>
+</body>
+</html>
