@@ -12,28 +12,36 @@
 </head>
 <body class="bg-gray-100">
     <header>
-        <nav class="bg-blue-600 shadow-lg p-4">
-            <div class="flex justify-between items-center">
-                <a href="#" class="text-white text-2xl font-bold">
-                    <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
-                    AhorrAdas
-                </a>
-                <div class="flex space-x-4">
-                    <a class="text-white" id="show-balance">
-                        <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
-                        Balance
+        <header> 
+            <nav class="bg-blue-600 shadow-lg p-4">
+                <div class="flex justify-between items-center">
+                    <a href="#" class="text-white text-2xl font-bold">
+                        <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
+                        AhorrAdas
                     </a>
-                    <a class="text-white" id="show-categories">
-                        <i class="fas fa-tag mr-2" aria-hidden="true"></i>
-                        Categorías
-                    </a>
-                    <a class="text-white" id="show-reports">
-                        <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
-                        Reportes
-                    </a>
+                    <div class="flex space-x-4">
+                        <!-- Botón para mostrar el balance -->
+                        <button class="text-white bg-transparent focus:outline-none" id="show-balance">
+                            <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
+                            Balance
+                        </button>
+                        
+                        <!-- Botón para mostrar categorías -->
+                        <button class="text-white bg-transparent focus:outline-none" id="show-categories">
+                            <i class="fas fa-tag mr-2" aria-hidden="true"></i>
+                            Categorías
+                        </button>
+                        
+                        <!-- Botón para mostrar reportes -->
+                        <button class="text-white bg-transparent focus:outline-none" id="show-reports">
+                            <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
+                            Reportes
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
+        
     </header>
     <!-- --------------------------------------------------- -->
     <main id="main-content" class="block">
@@ -236,8 +244,121 @@
 </div> <!-- Fin del contenedor principal -->
 
 <!-- fin operaciones contenedor  -->
+<!-- -------------------------inicio categorias------------------------------------------------------- -->
+<div class="md:column md:w-8/12 lg:w-10/12 md:offset-2 md:offset-1 shadow-lg shadow-blue-500/50 hidden"  id="categiries_box">
+    <!-- seccion categorias -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <button id="close-categories" class="text-red-500 focus:outline-none">
+            <i class="fas fa-times"></i>
+        </button>
+      <!-- categorias -->
+      <h2 class="text-2xl font-serif mb-6">Categorías</h2>
 
-
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria-input">Nombre</label>
+      <div class="flex">
+        <div class="flex-grow">
+          <input class="w-full p-2 border border-gray-300 rounded focus:border-indigo-500 focus:outline-none" type="text" name="" id="categoria-input">
+        </div>
+        <div class="ml-2">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Agregar
+          </button>
+        </div>
+      </div>
+      <!-- categoria comida -->
+      <div class="mt-6" id="categorias">
+        <div class="mb-3 ">
+          <div class="flex items-center">
+            <div class="flex-grow">
+              <span class="inline-block py-1 px-2 text-gray-700 border border-gray-300 rounded-lg w-1/4 text-center ">Comida</span>
+            </div>
+            <div class="ml-4">
+              <a href="#" aria-label="icono editar" class="text-sm text-blue-500 hover:text-blue-700 mr-2">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="#" aria-label="icono eliminar" class="text-sm text-red-500 hover:text-red-700">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- categoria trabajo -->
+      <div class="mt-6" id="categorias">
+        <div class="mb-3">
+          <div class="flex items-center">
+            <div class="flex-grow">
+              <span class="inline-block py-1 px-2 text-gray-700 border border-gray-300 rounded-lg w-1/4 text-center ">trabajo</span>
+            </div>
+            <div class="ml-4">
+              <a href="#" aria-label="icono editar" class="text-sm text-blue-500 hover:text-blue-700 mr-2">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="#" aria-label="icono eliminar" class="text-sm text-red-500 hover:text-red-700">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- categoria servicios -->
+      <div class="mt-6" id="categorias">
+        <div class="mb-3">
+          <div class="flex items-center">
+            <div class="flex-grow">
+              <span class="inline-block py-1 px-2 text-gray-700 border border-gray-300 rounded-lg w-1/4 text-center">Servicios</span>
+            </div>
+            <div class="ml-4">
+              <a href="#" aria-label="icono editar" class="text-sm text-blue-500 hover:text-blue-700 mr-2">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="#" aria-label="icono eliminar" class="text-sm text-red-500 hover:text-red-700">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- categoria educacion -->
+      <div class="mt-6" id="categorias">
+        <div class="mb-3">
+          <div class="flex items-center">
+            <div class="flex-grow">
+              <span class="inline-block py-1 px-2 text-gray-700 border border-gray-300 rounded-lg w-1/4  text-center">educacion</span>
+            </div>
+            <div class="ml-4">
+              <a href="#" aria-label="icono editar" class="text-sm text-blue-500 hover:text-blue-700 mr-2">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="#" aria-label="icono eliminar" class="text-sm text-red-500 hover:text-red-700">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- categoria transporte -->
+      <div class="mt-6" id="categorias">
+        <div class="mb-3">
+          <div class="flex items-center">
+            <div class="flex-grow">
+              <span class="inline-block py-1 px-2 text-gray-700 border border-gray-300 rounded-lg w-1/4 text-center">transporte</span>
+            </div>
+            <div class="ml-4">
+              <a href="#" aria-label="icono editar" class="text-sm text-blue-500 hover:text-blue-700 mr-2">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="#" aria-label="icono eliminar" class="text-sm text-red-500 hover:text-red-700">
+                <i class="fas fa-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- fin categorias -->
+  </div><!-- fin seccion categorias -->
+       
+<!-- --------------------------------fin categorias--------------------------------------------------- -->
 
 </section>
 <!-- seccion contenedor principal -->
@@ -249,5 +370,6 @@
 
 
 <script src="main.js"></script>
+<script src="categorias.js"></script>
 </body>
 </html>
