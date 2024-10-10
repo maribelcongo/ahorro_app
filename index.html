@@ -113,16 +113,16 @@
                 <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded" id="show-operation">+ Nueva operación</button>
             </div>
 
-            <div id="add-operations" class="hidden">
-                <div class="hidden md:flex  font-semibold">
-                    <div class="">Descripción</div>
-                    <div class="">Monto</div>
-                    <div class="">Categoría</div>
-                    <div class=" ">Fecha</div>
-                    <div class=" ">Acciones</div>
+            <div id="add-operations" class="hidden  ">
+                <div class="hidden md:flex  font-semibold items-center text-center ">
+                    <div class="w-1/4 p-2">Descripción</div>
+                    <div class="w-1/4 p-2">Monto</div>
+                    <div class="w-1/4 p-2">Categoría</div>
+                    <div class="w-1/4 p-2" >Fecha</div>
+                    <div class=" w-1/4 p-2">Acciones</div>
                 </div>
-                <div id="operations-table" class="">
-                    <table id="">
+                <div id="operations-table" class="overflow-y-auto max-h-96 border border-gray-300 mt-2">
+                    <table class="w-full">
                        
                         <tbody id="operations-table-body" class="flex flex-col">
                             <!-- Las operaciones se mostraran aquí -->

@@ -117,23 +117,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
             operaciones.forEach((operacion) => {
                 const tr = document.createElement('tr');
+                tr.classList.add('flex', 'justify-between', 'items-center', 'p-2', 'border-b', 'border-gray-300'); // Estilos de fila
+            
                 tr.innerHTML = `
-                    <td>${operacion.descripcion}</td>
-                    <td>${operacion.monto.toFixed(2)}</td>
-                    <td>${operacion.categoria}</td>
-                    <td>${operacion.fecha}</td>
-                    <td>
-                        <button class="bg-yellow-500 text-white px-2 py-1 rounded edit-btn" data-id="${operacion.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="bg-red-500 text-white px-2 py-1 rounded delete-btn" data-id="${operacion.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                    <td class="flex-1 text-center">${operacion.descripcion}</td>
+                    <td class="flex-1 text-center">${operacion.monto.toFixed(2)}</td>
+                    <td class="flex-1 text-center">${operacion.categoria}</td>
+                    <td class="flex-1 text-center">${operacion.fecha}</td>
+                    <td class="flex-1 text-center">
+                        <div class="flex justify-around">
+                            <button class="bg-yellow-500 text-white px-2 py-1 rounded edit-btn" data-id="${operacion.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="bg-red-500 text-white px-2 py-1 rounded delete-btn" data-id="${operacion.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
+            
                 operationsTableBody.appendChild(tr);
             });
-
+            
             document.querySelectorAll('.delete-btn').forEach(button => {
                 button.addEventListener('click', mostrarModalEliminar);
             });
@@ -225,5 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('edit-category-operation').value = '';
         document.getElementById('edit-date-operation').value = '';
     }
-   
+
+
+
+
 });
