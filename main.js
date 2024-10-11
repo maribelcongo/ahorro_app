@@ -1,4 +1,30 @@
+// boton balance
 
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const showBalanceButton = document.getElementById('show-balance');
+    const sectionBalance = document.getElementById('section-balance');
+    const categoriesBox = document.getElementById('categiries_box');
+    // const reportsBox = document.getElementById('reports_box'); // Asegúrate de tener esta sección
+    const mainContent = document.getElementById('main-content'); 
+
+    // Evento para mostrar la sección de Balance
+    showBalanceButton.addEventListener('click', function() {
+        // Oculta las secciones de categorías y reportes
+        categoriesBox.classList.add('hidden');
+        // reportsBox.classList.add('hidden');
+        
+        // Muestra la sección de balance y oculta otros contenidos
+        sectionBalance.classList.remove('hidden');
+        mainContent.classList.remove('hidden');
+    });
+
+    
+});
+
+
+
+// ------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     // Referencias a elementos del DOM
     const btnNuevaOperacion = document.getElementById('show-operation');
