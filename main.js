@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => { 
+
+document.addEventListener('DOMContentLoaded', () => {
     // Referencias a elementos del DOM
     const btnNuevaOperacion = document.getElementById('show-operation');
     const sectionOperation = document.getElementById('section-operation');
@@ -24,14 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!op.id) {
             return {
                 ...op,
-                id: Date.now().toString() + Math.random().toString(36).substring(2), // Generar un ID único
+                id: Date.now().toString() + Math.random().toString(36).substring(2),
             };
         }
         return op;
     });
 
     // Guardar las operaciones corregidas en localStorage
-    localStorage.setItem('operaciones', JSON.stringify(operaciones));
+    guardarOperacionesEnStorage();
 
     // Inicializar tabla y balance al cargar
     actualizarTablaOperaciones();
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fecha = document.getElementById('date-input').value;
 
         const nuevaOperacion = {
-            id: Date.now().toString() + Math.random().toString(36).substring(2), // Generar un ID único
+            id: Date.now().toString() + Math.random().toString(36).substring(2),
             descripcion,
             monto,
             tipoOperacion,
@@ -117,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             operaciones.forEach((operacion) => {
                 const tr = document.createElement('tr');
-                tr.classList.add('flex', 'justify-between', 'items-center', 'p-2', 'border-b', 'border-gray-300'); // Estilos de fila
+                tr.classList.add('flex', 'justify-between', 'items-center', 'p-2', 'border-b', 'border-gray-300');
             
                 tr.innerHTML = `
                     <td class="flex-1 text-center">${operacion.descripcion}</td>
@@ -173,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function editarOperacion(event) {
-        operacionIdEdit = event.target.getAttribute('data-id');
+        operacionIdEdit = event.target.closest('button').dataset.id; // Obtener el ID del botón
         const operacion = operaciones.find(op => op.id === operacionIdEdit);
 
         if (!operacion) {
@@ -230,8 +231,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('edit-category-operation').value = '';
         document.getElementById('edit-date-operation').value = '';
     }
-
-
-
-
 });
