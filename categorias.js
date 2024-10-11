@@ -18,16 +18,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 // ----------------------------------------------------------------------------
-document.addEventListener('DOMContentLoaded', () => {  
-    const categoriaInput = document.getElementById('categoria-input'); // Input para agregar categoría
-    const editCategoriaInput = document.getElementById('edit-categoria-input'); // Input para editar categoría
-    const btnAgregarCategoria = document.querySelector('.bg-blue-500'); 
-    const categoriasContainer = document.getElementById('categorias');
+document.addEventListener('DOMContentLoaded', () => {   
+    const categoriaInput = document.getElementById('categoria-input');
+    const btnAgregarCategoria = document.getElementById('btn-agregar-categoria'); 
+    const categoriasContainer = document.getElementById('categorias'); 
     const editModal = document.getElementById('edit-modal');
     const deleteModal = document.getElementById('delete-modal');
+    const editCategoriaInput = document.getElementById('edit-categoria-input');
+    
     let categoriaIdEdit = null;
     let categoriaIdToDelete = null;
 
+    // Cargar categorías desde localStorage o usar valores predeterminados
     let categorias = JSON.parse(localStorage.getItem('categorias')) || [
         { id: '1', nombre: 'Transporte' },
         { id: '2', nombre: 'Servicios' },
@@ -35,18 +37,21 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: '4', nombre: 'Trabajo' },
     ];
 
+    // Guardar categorías en localStorage si no están almacenadas
     if (!localStorage.getItem('categorias')) {
         guardarCategoriasEnStorage();
     }
 
+    // Actualizar la lista de categorías
     actualizarListaCategorias();
 
+    // Evento de click para agregar categoría
     btnAgregarCategoria.addEventListener('click', (e) => {
         e.preventDefault();
         const nombreCategoria = categoriaInput.value.trim();
         if (nombreCategoria) {
             const nuevaCategoria = {
-                id: Date.now().toString(),
+                id: Date.now().toString(), 
                 nombre: nombreCategoria,
             };
             categorias.push(nuevaCategoria);
@@ -56,10 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Guardar categorías en localStorage
     function guardarCategoriasEnStorage() {
         localStorage.setItem('categorias', JSON.stringify(categorias));
     }
 
+    // Actualizar la lista de categorías en el DOM
     function actualizarListaCategorias() {
         categoriasContainer.innerHTML = ''; 
         categorias.forEach(categoria => {
@@ -83,63 +90,69 @@ document.addEventListener('DOMContentLoaded', () => {
             categoriasContainer.appendChild(div);
         });
 
+        // Agregar eventos a los botones de eliminar
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', mostrarModalEliminar);
         });
 
+        // Agregar eventos a los botones de editar
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', mostrarModalEditar);
         });
     }
 
+    // Mostrar modal de eliminación
     function mostrarModalEliminar(event) {
-        categoriaIdToDelete = event.target.closest('a').dataset.id;
+        categoriaIdToDelete = event.target.closest('a').dataset.id; 
         deleteModal.classList.remove('hidden');
     }
 
+    // Mostrar modal de edición
     function mostrarModalEditar(event) {
         categoriaIdEdit = event.target.closest('a').dataset.id;
-        const categoria = categorias.find(c => c.id === categoriaIdEdit);
-        
+        const categoria = categorias.find(c => c.id === categoriaIdEdit); 
         if (categoria) {
-            editCategoriaInput.value = categoria.nombre; // Cargar nombre en el input de edición
-            editModal.classList.remove('hidden'); // Mostrar modal de edición
+            editCategoriaInput.value = categoria.nombre; 
+            editModal.classList.remove('hidden'); 
         }
     }
 
+    // Confirmar la edición de la categoría
     document.getElementById('confirm-edit-button').addEventListener('click', () => {
-        const nuevoNombre = editCategoriaInput.value.trim(); // Usar el input correcto
+        const nuevoNombre = editCategoriaInput.value.trim(); 
         if (nuevoNombre && categoriaIdEdit) {
             const categoria = categorias.find(c => c.id === categoriaIdEdit);
             if (categoria) {
                 categoria.nombre = nuevoNombre; 
                 guardarCategoriasEnStorage();
                 actualizarListaCategorias();
-                editCategoriaInput.value = ''; // Limpiar input
+                editCategoriaInput.value = ''; 
                 editModal.classList.add('hidden'); 
-                categoriaIdEdit = null; 
+                categoriaIdEdit = null;
             }
         }
     });
 
-    // Este es el botón de cancelar la edición
+    // Cancelar edición
     document.getElementById('cancel-edit-button').addEventListener('click', () => {
         editModal.classList.add('hidden'); 
-        editCategoriaInput.value = ''; // Limpiar input
+        editCategoriaInput.value = ''; 
         categoriaIdEdit = null; 
     });
 
+    // Confirmar eliminación de categoría
     document.getElementById('confirm-delete-button').addEventListener('click', () => {
         if (categoriaIdToDelete) {
-            categorias = categorias.filter(categoria => categoria.id !== categoriaIdToDelete);
+            categorias = categorias.filter(categoria => categoria.id !== categoriaIdToDelete); 
             guardarCategoriasEnStorage();
             actualizarListaCategorias();
-            deleteModal.classList.add('hidden'); 
+            deleteModal.classList.add('hidden');
             categoriaIdToDelete = null; 
         }
     });
 
+    // Cancelar eliminación
     document.getElementById('cancel-delete-button').addEventListener('click', () => {
-        deleteModal.classList.add('hidden'); 
+        deleteModal.classList.add('hidden');
     });
 });
