@@ -193,8 +193,9 @@
                         <option value="servicios">Servicios</option>
                     </select>
 
-                    <label for="date-input" class="block mt-4">Fecha</label>
-                    <input type="date" id="date-input" class="border border-gray-300 rounded p-2 w-full" required>
+                    <label for="date-operation" class="block mt-4">Fecha</label>
+                    <input type="date" id="date-operation" class="border border-gray-300 rounded p-2 w-full">
+
                 </form>
                 <div class="flex justify-end mt-6">
                     <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded" id="cancelar-agregar-operaciones-boton">Cancelar</button>
@@ -299,7 +300,41 @@
        
 <!-- --------------------------------fin categorias--------------------------------------------------- -->
 
-</section>
+
+<!-- seccion reportes -->
+<div id="report-section" class="hidden">
+    <!-- Sección reportes -->  
+<div class="hidden" id="reports_img"> 
+    <h2 class="text-2xl font-serif text-center mb-6">Reportes</h2>
+    <div class="flex justify-center" id="reports_container">
+        <!-- reportes -->
+        <div class="flex flex-col gap-6 my-6 py-6">
+            <div class="flex flex-col items-center">
+                <div class="flex justify-center my-8 p-4">
+                    <img src="image/undraw_personal_goals_re_iow7.svg" class="w-96" alt="Operaciones insuficientes">
+                </div>
+                <p class="text-center mt-6 text-lg font-sans">Operaciones insuficientes</p>
+                <p class="text-center text-sm font-sans">Prueba agregando más operaciones</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- -------------------- Listado reportes ------------------------------------------- -->
+<div class="hidden shadow-lg shadow-blue-500/50 w-full p-6" id="list_reports"> 
+    <!-- Fin div contenedor listado -->
+    
+    <!-- reportes -->
+    <div class="section mb-5">
+        <h2 class="text-2xl font-serif mb-5 pb-4 text-center">Resumen</h2>
+        <div id="reporte-resumen"></div>
+    </div>
+    
+    <div id="totales-categorias"></div>
+    <div id="totales-meses"></div>
+</div>
+
+</section>   
 <!-- seccion contenedor principal -->
 
 
@@ -310,5 +345,6 @@
 
 <script src="main.js"></script>
 <script src="categorias.js"></script>
+<script src="reportes.js"></script>
 </body>
 </html>
