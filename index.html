@@ -176,13 +176,17 @@
                     <input type="number" id="monto-input" value="0" class="border border-gray-300 rounded p-2 w-full" required>
 
                     <label for="tipo-operacion" class="block mt-4">Tipo</label>
+                    
                     <select id="tipo-operacion" class="border border-gray-300 rounded p-2 w-full" required>
+                        <option value="" disabled selected>Selecciona un tipo de operación</option>
                         <option value="gasto">Gasto</option>
                         <option value="ganancia">Ganancia</option>
                     </select>
+                    
 
                     <label for="categories-select" class="block mt-4">Categorías</label>
                     <select id="categories-select" class="border border-gray-300 rounded p-2 w-full" required>
+                        <option value="" disabled selected>Selecciona un tipo de categoria</option>
                         <option value="comida">Comida</option>
                         <option value="salidas">Salidas</option>
                         <option value="trabajo">Trabajo</option>
@@ -217,12 +221,14 @@
 
         <label for="edit-type-operation" class="block mt-4">Tipo</label>
         <select id="edit-type-operation" class="border border-gray-300 rounded p-2 w-full" required>
+            <option value="" disabled selected>Selecciona un tipo de operación</option>
             <option value="gasto">Gasto</option>
             <option value="ganancia">Ganancia</option>
         </select>
 
         <label for="edit-category-operation" class="block mt-4">Categorías</label>
         <select id="edit-category-operation" class="border border-gray-300 rounded p-2 w-full" required>
+            <option value="" disabled selected>Selecciona un tipo de categoria</option>
             <option value="comida">Comida</option>
             <option value="salidas">Salidas</option>
             <option value="trabajo">Trabajo</option>
