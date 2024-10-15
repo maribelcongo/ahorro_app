@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   document
-    .getElementById("cancel-edit-button")
+    .getElementById("cancel-edit-button-operation")
     .addEventListener("click", () => {
       editOperationSection.classList.add("hidden");
       mainContent.classList.remove("hidden");
