@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Confirmar la edición de la categoría
   document
-    .getElementById("confirm-edit-button")
+    .getElementById("confirm-edit-button-categories")
     .addEventListener("click", () => {
       const nuevoNombre = editCategoriaInput.value.trim();
       if (nuevoNombre && categoriaIdEdit) {
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Cancelar edición
   document
-    .getElementById("cancel-edit-button")
+    .getElementById("cancel-edit-button-categories")
     .addEventListener("click", () => {
       editModal.classList.add("hidden");
       editCategoriaInput.value = "";
