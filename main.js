@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const reportsButton = document.getElementById("show-reports");
 
   const categoriesBox = document.getElementById("categiries_box");
-  const sectionBalance = document.getElementById("section-balance");
+  const sectionBalance = document.getElementById("section_box_contenedor");
   const reportsSection = document.getElementById("reports_img");
   const listReportsSection = document.getElementById("list_reports");
   const mainContent = document.getElementById("main-content");
