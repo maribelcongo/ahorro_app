@@ -30,11 +30,16 @@ Ahorro_app es una aplicación web diseñada para ayudar a los usuarios a gestion
 ![editar-operacion](https://github.com/user-attachments/assets/7286d399-6053-4c9e-b68e-22add35cb1a2)
 
 ## Categorias
-![categorias](https://github.com/user-attachments/assets/db843053-bad9-43bc-b1f8-f4f4ee79873c)
+
+![categorias (2)](https://github.com/user-attachments/assets/2cc465bc-b33f-4f66-8eb1-e93b6eb8e95f)
+
 
 ## Resumen
-![resumen](https://github.com/user-attachments/assets/2742a1b7-d7e0-4e18-ae4e-73a67e8a0f97)
+
+![resumen (2)](https://github.com/user-attachments/assets/00751353-4a58-4716-98ec-aa955d19f73f)
+
 
 ## Reporte
 
-![reporte](https://github.com/user-attachments/assets/8152faea-30de-4a49-b691-794d64259e35)
+![Captura de pantalla (24)](https://github.com/user-attachments/assets/b1036f25-9088-42b2-83ba-838995b53754)
+
