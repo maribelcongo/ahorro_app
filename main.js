@@ -1,11 +1,9 @@
-// botones del navbar
-
 document.addEventListener("DOMContentLoaded", function () {
   const showCategoriesButton = document.getElementById("show-categories");
   const showBalanceButton = document.getElementById("show-balance");
   const reportsButton = document.getElementById("show-reports");
 
-  const categoriesBox = document.getElementById("categiries_box");
+  const categoriesBox = document.getElementById("categories_box");
   const sectionBalance = document.getElementById("section_box_contenedor");
   const reportsSection = document.getElementById("reports_img");
   const listReportsSection = document.getElementById("list_reports");
@@ -26,22 +24,52 @@ document.addEventListener("DOMContentLoaded", function () {
     sectionToShow.classList.remove("hidden");
   }
 
-  // Evento para mostrar categorías
+  // Eventos para los botones del navbar
   showCategoriesButton.addEventListener("click", function () {
     showSection(categoriesBox);
   });
 
-  // Evento para mostrar balance
   showBalanceButton.addEventListener("click", function () {
     showSection(sectionBalance);
   });
 
-  // Evento para mostrar reportes
   reportsButton.addEventListener("click", function () {
     showSection(reportsSection);
     listReportsSection.classList.remove("hidden"); // Mostrar listado de reportes
   });
+
+  // Lógica para el menú hamburguesa
+  const menuButton = document.getElementById("menu-button");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuButton.addEventListener("click", function () {
+    mobileMenu.classList.toggle("hidden");
+  });
+
+  // Eventos para los botones del menú móvil
+  document
+    .getElementById("show-balance-mobile")
+    .addEventListener("click", function () {
+      showSection(sectionBalance);
+      mobileMenu.classList.add("hidden"); // Ocultar menú después de hacer clic
+    });
+
+  document
+    .getElementById("show-categories-mobile")
+    .addEventListener("click", function () {
+      showSection(categoriesBox);
+      mobileMenu.classList.add("hidden"); // Ocultar menú después de hacer clic
+    });
+
+  document
+    .getElementById("show-reports-mobile")
+    .addEventListener("click", function () {
+      showSection(reportsSection);
+      listReportsSection.classList.remove("hidden"); // Mostrar listado de reportes
+      mobileMenu.classList.add("hidden"); // Ocultar menú después de hacer clic
+    });
 });
+
 // ------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   // Referencias a elementos del DOM

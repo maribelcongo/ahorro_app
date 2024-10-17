@@ -27,6 +27,7 @@
         fontSecondary: "#57585b",
         fontHover:"#f8cd51",
         fontTertiary:"#838EA2",
+       
         },
     
         fontFamily: {
@@ -41,45 +42,57 @@
 </head>
 <body class="bg-gray-100">
     
-        <header class=""> 
-            <nav class="bg-blue-600 shadow-lg p-4 h-24 ">
-                <div class="flex justify-between items-center m-4">
-                    <a href="#" class="text-fontPrimary  text-[40px] font-bold">
-                        <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
-                        AhorrAdas
-                    </a>
-                    <div class="flex space-x-4">
-                        <!-- Botón para mostrar el balance -->
-                        <button class="text-white text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded " id="show-balance">
-                            <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
-                            Balance
-                        </button>
-                        
-                        <!-- Botón para mostrar categorías -->
-                        <button class="text-white text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded " id="show-categories">
-                            <i class="fas fa-tag mr-2" aria-hidden="true"></i>
-                            Categorías
-                        </button>
-                        
-                        <!-- Botón para mostrar reportes -->
-                        <button class="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded" id="show-reports"> 
-                            <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
-                            Reportes
-                        </button>
-                        
-                    </div>
+    <header class="relative">
+        <nav class="bg-blue-600 shadow-lg p-4 h-24">
+            <div class="flex justify-between items-center m-4">
+                <a href="#" class="text-fontPrimary text-[40px] font-bold">
+                    <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
+                    AhorrAdas
+                </a>
+                <div class="flex md:hidden"> <!-- Solo visible en móviles -->
+                    <button id="menu-button" class="text-white">
+                        <i class="fas fa-bars fa-lg"></i>
+                    </button>
                 </div>
-            </nav>
-        </header>
-        
-        
+                <div class="hidden md:flex space-x-4" id="menu-items"> <!-- Oculto en móviles -->
+                    <button class="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded" id="show-balance">
+                        <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
+                        Balance
+                    </button>
+                    <button class="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded" id="show-categories">
+                        <i class="fas fa-tag mr-2" aria-hidden="true"></i>
+                        Categorías
+                    </button>
+                    <button class="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded" id="show-reports">
+                        <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
+                        Reportes
+                    </button>
+                </div>
+            </div>
+            <div class="md:hidden hidden w-4/12" id="mobile-menu"> <!-- Oculto en pantallas grandes -->
+                <button class="block text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded m-2 w-full " id="show-balance-mobile">
+                    <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
+                    Balance
+                </button>
+                <button class="block text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded m-2 w-full" id="show-categories-mobile">
+                    <i class="fas fa-tag mr-2" aria-hidden="true"></i>
+                    Categorías
+                </button>
+                <button class="block text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded m-2 w-full" id="show-reports-mobile">
+                    <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
+                    Reportes
+                </button>
+            </div>
+        </nav>
+    </header>
+    
 
 <main id="main-content" class="block">
      <section class="mt-5" id="section_box_contenedor"> 
         <!-- balance contenedor -->
         <!-- inicio balance -->
-        <div class="container mx-auto p-4 flex">  <!-- contenedor principal --> 
-            <div class="w-2/5" id="balance_filtro"> <!-- Contenedor para balance y filtros -->
+        <div class="container mx-auto p-4 flex flex-col md:flex-row min-h-screen pb-16">  <!-- contenedor principal --> 
+            <div class="w-full md:w-2/5" id="balance_filtro"> <!-- Contenedor para balance y filtros -->
                 <div class="container_balance">
                     <div class="bg-white shadow-md rounded p-4">
                         <h3 class="text-xl font-bold">Balance</h3>
@@ -145,7 +158,7 @@
                 <div class="bg-white shadow-md rounded p-4">
                     <div class="flex justify-between mb-4">
                         <h3 class="text-xl font-bold">Operaciones</h3>
-                        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded" id="show-operation">+ Nueva operación</button>
+                        <button type="button" class="bg-blue-600 hover:bg-blue-400  text-white px-4 py-2 rounded" id="show-operation">+ Nueva operación</button>
                     </div>
     
                     <div id="add-operations" class="hidden">
@@ -280,11 +293,11 @@
 
 </div> 
 
-<!-- fin operaciones contenedor  -->
+              <!-- fin operaciones contenedor  -->
 
-          <!-------------------------inicio categorias-------------------------------------------------------->
+          <!-------------------------inicio categorias-------------------------------->
 <!-- Sección de Categorías -->
-<article class="shadow-blue-500/50 hidden w-5/6 mx-auto p-4" id="categiries_box">
+<article class="shadow-blue-500/50 hidden w-5/6 mx-auto p-4" id="categories_box">
       
     <div class="bg-white rounded-lg shadow-md p-6">
         
@@ -308,6 +321,7 @@
         <div class="mt-6" id="categorias"></div> <!-- Contenedor para mostrar las categorías -->
     </div>
 </div>
+
 
 <!-- Modal de Edición categorias -->
 <div id="edit_modal_categoties" class="hidden fixed inset-0 flex items-center justify-center z-50">
@@ -376,8 +390,8 @@
 <!-- seccion contenedor principal -->
 
 
-<footer class="bg-blue-600 text-white py-4 mt-10">
-    <div class="container mx-auto text-center">
+<footer class="bg-blue-600 text-white p-[5px] mt-10 w-full ">
+    <div class="container_footer mx-auto text-center">
         <p class="mb-2">&copy; 2024 AhorrAdas. Todos los derechos reservados.</p>
       
         <div class="mt-2">

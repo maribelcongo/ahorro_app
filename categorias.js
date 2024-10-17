@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoriaInput = document.getElementById("categoria-input");
   const btnAgregarCategoria = document.getElementById("btn-agregar-categoria");
   const categoriasContainer = document.getElementById("categorias");
-  const editModal = document.getElementById("edit-modal");
-  const deleteModal = document.getElementById("delete-modal");
+  const editModal = document.getElementById("edit_modal_categoties");
+  const deleteModal = document.getElementById("delete_modal_categories");
   const editCategoriaInput = document.getElementById("edit-categoria-input");
 
   let categoriaIdEdit = null;
@@ -147,9 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
       categoriaIdEdit = null;
     });
 
-  // Confirmar eliminación de categoría
   document
-    .getElementById("confirm-delete-button")
+    .getElementById("confirm-delete-button-categories")
     .addEventListener("click", () => {
       if (categoriaIdToDelete) {
         categorias = categorias.filter(
@@ -162,9 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-  // Cancelar eliminación
   document
-    .getElementById("cancel-delete-button")
+    .getElementById("cancel-delete-button-categories")
     .addEventListener("click", () => {
       deleteModal.classList.add("hidden");
     });
