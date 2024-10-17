@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       div.innerHTML = `
           <div class="flex items-center">
               <div class="flex-grow">
-                  <span class="inline-block py-1 px-2 text-gray-700 border border-gray-300 rounded-lg w-1/4 text-center">${categoria.nombre}</span>
+                  <span class="inline-block py-1 px-2 text-gray-700 border border-gray-300 rounded-lg w-1/4 text-center max-w-40 min-w-32">${categoria.nombre}</span>
               </div>
               <div class="ml-4">
                   <a href="#" class="text-sm text-blue-500 hover:text-blue-700 mr-2 edit-btn" data-id="${categoria.id}">

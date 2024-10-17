@@ -58,15 +58,15 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("show-categories-mobile")
     .addEventListener("click", function () {
       showSection(categoriesBox);
-      mobileMenu.classList.add("hidden"); // Ocultar menú después de hacer clic
+      mobileMenu.classList.add("hidden");
     });
 
   document
     .getElementById("show-reports-mobile")
     .addEventListener("click", function () {
       showSection(reportsSection);
-      listReportsSection.classList.remove("hidden"); // Mostrar listado de reportes
-      mobileMenu.classList.add("hidden"); // Ocultar menú después de hacer clic
+      listReportsSection.classList.remove("hidden");
+      mobileMenu.classList.add("hidden");
     });
 });
 
