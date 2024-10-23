@@ -1,3 +1,23 @@
+// ------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const filterLabel = document.getElementById("filter-label");
+  const filtersDiv = document.getElementById("filters");
+
+  filterLabel.addEventListener("click", (event) => {
+    event.preventDefault(); // Evita que el enlace recargue la página
+
+    if (
+      filtersDiv.style.display === "none" ||
+      filtersDiv.style.display === ""
+    ) {
+      filtersDiv.style.display = "block";
+      filterLabel.textContent = "Ocultar filtros";
+    } else {
+      filtersDiv.style.display = "none";
+      filterLabel.textContent = "Mostrar filtros";
+    }
+  });
+});
 document.addEventListener("DOMContentLoaded", () => {
   // Referencias a elementos del DOM
   const typeFilter = document.getElementById("type-filter");
