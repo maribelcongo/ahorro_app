@@ -162,16 +162,21 @@
                         <button type="button" class="bg-blue-600 hover:bg-blue-400  text-white px-4 py-2 rounded" id="show-operation">+ Nueva operación</button>
                     </div>
     
-                    <div id="add-operations" class="hidden">
-                        <div class="hidden md:flex font-semibold items-center text-center">
-                            <div class="w-1/4 p-2">Descripción</div>
-                            <div class="w-1/4 p-2">Monto</div>
-                            <div class="w-1/4 p-2">Categoría</div>
-                            <div class="w-1/4 p-2">Fecha</div>
-                            <div class="w-1/4 p-2">Acciones</div>
-                        </div>
-                        <div id="operations-table" class="overflow-y-auto max-h-96 border border-gray-300 mt-2">
-                            <table class="w-full">
+                    
+                        <div id="operations-table" class="overflow-x-auto max-h-96 border border-gray-300 mt-2">
+                            <div id="add-operations" class="hidden">
+                                <table class="w-full table-auto border-separate border-spacing-4  bg-gray-300" id="name_table">
+                               
+                                    <thead class="">
+                                        <tr class="">
+                                            <th class="w-1/5 py-2 ">Descripción</th>
+                                            <th class="w-1/5 py-2 ">Monto</th>
+                                            <th class="w-1/5 py-2 ">Categoría</th>
+                                            <th class="w-1/5 py-2">Fecha</th>
+                                            <th class="w-1/5 py-2 ">Acciones</th>
+                                        </tr>
+                                    </thead>
+                            <table class="w-full table-auto border-separate border-spacing-4">
                                 <tbody id="operations-table-body" class="flex flex-col">
                                     <!-- Las operaciones se mostrarán aquí -->
                                 </tbody>
@@ -301,9 +306,7 @@
 <article class="shadow-blue-500/50 hidden w-full h-screen mx-auto p-4 sm:w-3/5" id="categories_box">
 
     <div class="bg-white rounded-lg shadow-md p-6"> 
-        <button id="close-categories" class="text-red-500 focus:outline-none">
-            <i class="fas fa-times"></i>
-        </button>
+        
         
         <h2 class="text-2xl font-serif mb-6">Categorías</h2>
     

@@ -227,27 +227,32 @@ document.addEventListener("DOMContentLoaded", () => {
           "items-center",
           "p-2",
           "border-b",
-          "border-gray-300"
+          "border-gray-300",
+          "gap-8"
         );
+        const montoClass =
+          operacion.tipoOperacion === "ganancia"
+            ? "text-green-500"
+            : "text-red-500";
 
         tr.innerHTML = `
                 <td class="flex-1 text-center">${operacion.descripcion}</td>
-                <td class="flex-1 text-center">${(operacion.monto || 0).toFixed(
-                  2
-                )}</td>
+               <td class="flex-1 text-center ${montoClass}">${(
+          operacion.monto || 0
+        ).toFixed(2)}</td>
                 <td class="flex-1 text-center">${operacion.categoria}</td>
                 <td class="flex-1 text-center">${operacion.fecha}</td>
                 <td class="flex-1 text-center">
                     <div class="flex justify-around">
-                        <button class="bg-yellow-500 text-white px-2 py-1 rounded edit-btn" data-id="${
+                        <button class=" px-1  rounded edit-btn" data-id="${
                           operacion.id
                         }">
-                            <i class="fas fa-edit"></i>
+                            <i class="fas fa-edit   text-yellow-600"></i>
                         </button>
-                        <button class="bg-red-500 text-white px-2 py-1 rounded delete-btn" data-id="${
+                        <button class=" px-1   rounded delete-btn" data-id="${
                           operacion.id
                         }">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-trash text-red-600"></i>
                         </button>
                     </div>
                 </td>
