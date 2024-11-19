@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const listReportsSection = document.getElementById("list_reports");
   const mainContent = document.getElementById("main-content");
   const sectionOperation = document.getElementById("section-operation");
+  const editOperationSection = document.getElementById("edit-operation");
 
   // Función para ocultar todas las secciones
   function hideAllSections() {
@@ -18,25 +19,26 @@ document.addEventListener("DOMContentLoaded", function () {
     listReportsSection.classList.add("hidden");
     mainContent.classList.remove("hidden");
     sectionOperation.classList.add("hidden"); // Ocultar formulario de nueva operación
+    editOperationSection.classList.add("hidden"); // Asegurarse de ocultar el formulario de edición
   }
 
   // Evento para mostrar secciones
   function showSection(sectionToShow) {
-    hideAllSections();
-    sectionToShow.classList.remove("hidden");
+    hideAllSections(); // Asegura que se oculten todas las secciones antes de mostrar la nueva
+    sectionToShow.classList.remove("hidden"); // Mostrar la sección seleccionada
   }
 
   // Eventos para los botones del navbar
   showCategoriesButton.addEventListener("click", function () {
-    showSection(categoriesBox);
+    showSection(categoriesBox); // Mostrar categorías
   });
 
   showBalanceButton.addEventListener("click", function () {
-    showSection(sectionBalance);
+    showSection(sectionBalance); // Mostrar resumen de balance
   });
 
   reportsButton.addEventListener("click", function () {
-    showSection(reportsSection);
+    showSection(reportsSection); // Mostrar reportes
     listReportsSection.classList.remove("hidden"); // Mostrar listado de reportes
   });
 
@@ -71,8 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileMenu.classList.add("hidden");
     });
 });
-
-// ------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
   // Referencias a elementos del DOM
@@ -95,22 +96,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const gastosElement = document.getElementById("gastos");
   const balanceTotalElement = document.getElementById("balance-total");
 
+  const categoriasSelectNuevaOperacion =
+    document.getElementById("categories-select");
+  const categoriasSelectEditarOperacion = document.getElementById(
+    "edit-category-operation"
+  );
+
   let operacionIdToDelete;
   let operacionIdEdit;
   let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
 
-  operaciones = operaciones.map((op) => {
-    if (!op.id) {
-      return {
-        ...op,
-        id: Date.now().toString() + Math.random().toString(36).substring(2),
-      };
-    }
-    return op;
-  });
+  // Cargar categorías desde localStorage o usar las por defecto
+  const categoriasPorDefecto = [
+    { id: "1", nombre: "Comida" },
+    { id: "2", nombre: "Salidas" },
+    { id: "3", nombre: "Trabajo" },
+    { id: "4", nombre: "Transporte" },
+    { id: "5", nombre: "Educación" },
+    { id: "6", nombre: "Servicios" },
+  ];
+
+  let categorias =
+    JSON.parse(localStorage.getItem("categorias")) || categoriasPorDefecto;
+
+  // Guardar categorías en localStorage si no están almacenadas
+  if (!localStorage.getItem("categorias")) {
+    guardarCategoriasEnStorage();
+  }
 
   // Guardar las operaciones corregidas en localStorage
   guardarOperacionesEnStorage();
+
+  // Cargar las categorías en los selects
+  cargarCategorias(categoriasSelectNuevaOperacion);
+  cargarCategorias(categoriasSelectEditarOperacion);
 
   // Inicializar tabla y balance al cargar
   actualizarTablaOperaciones();
@@ -119,13 +138,21 @@ document.addEventListener("DOMContentLoaded", () => {
   btnNuevaOperacion.addEventListener("click", () => {
     sectionOperation.classList.remove("hidden");
     mainContent.classList.add("hidden");
-    editOperationSection.classList.add("hidden");
+    editOperationSection.classList.add("hidden"); // Asegurarse de que el formulario de edición está oculto
   });
 
   btnCancelarAgregarOperacion.addEventListener("click", () => {
     sectionOperation.classList.add("hidden");
     mainContent.classList.remove("hidden");
   });
+
+  // Botón de cancelar en el formulario de edición de operación
+  document
+    .getElementById("cancel-edit-operation")
+    .addEventListener("click", () => {
+      editOperationSection.classList.add("hidden");
+      mainContent.classList.remove("hidden"); // Mostrar la sección principal
+    });
 
   btnAgregarOperacion.addEventListener("click", (e) => {
     e.preventDefault();
@@ -191,24 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("tipo-operacion").value = "";
     document.getElementById("categories-select").value = "";
     document.getElementById("date-operation").value = "";
-  }
-  function actualizarBalance() {
-    let totalGanancias = 0;
-    let totalGastos = 0;
-
-    operaciones.forEach((op) => {
-      if (op.tipoOperacion === "ganancia") {
-        totalGanancias += op.monto || 0; // Asigna 0 si monto es null
-      } else {
-        totalGastos += op.monto || 0; // Asigna 0 si monto es null
-      }
-    });
-
-    const totalBalance = totalGanancias - totalGastos;
-
-    gananciasElement.textContent = totalGanancias.toFixed(2);
-    gastosElement.textContent = totalGastos.toFixed(2);
-    balanceTotalElement.textContent = totalBalance.toFixed(2);
   }
 
   function actualizarTablaOperaciones() {
@@ -341,38 +350,44 @@ document.addEventListener("DOMContentLoaded", () => {
       ).value;
       const fecha = document.getElementById("edit-date-operation").value;
 
-      const operacionEditada = {
-        id: operacionIdEdit,
-        descripcion,
-        monto,
-        tipoOperacion,
-        categoria,
-        fecha,
-      };
-
-      operaciones = operaciones.map((op) =>
-        op.id === operacionIdEdit ? operacionEditada : op
+      const operacionEditada = operaciones.find(
+        (op) => op.id === operacionIdEdit
       );
-      guardarOperacionesEnStorage(); // Guardar cambios en el localStorage
+
+      if (operacionEditada) {
+        operacionEditada.descripcion = descripcion;
+        operacionEditada.monto = monto;
+        operacionEditada.tipoOperacion = tipoOperacion;
+        operacionEditada.categoria = categoria;
+        operacionEditada.fecha = fecha;
+      }
+
+      guardarOperacionesEnStorage();
       actualizarTablaOperaciones();
-      editOperationSection.classList.add("hidden");
-      mainContent.classList.remove("hidden");
       actualizarBalance();
-    });
-
-  document
-    .getElementById("cancel-edit-button-operation")
-    .addEventListener("click", () => {
+      limpiarFormulario();
       editOperationSection.classList.add("hidden");
       mainContent.classList.remove("hidden");
-      limpiarFormularioEdicion();
     });
 
-  function limpiarFormularioEdicion() {
-    document.getElementById("edit-description-operation").value = "";
-    document.getElementById("edit-operation-amount").value = "";
-    document.getElementById("edit-type-operation").value = "";
-    document.getElementById("edit-category-operation").value = "";
-    document.getElementById("edit-date-operation").value = "";
+  // Función para cargar categorías en un <select> dado
+  function cargarCategorias(selectElement) {
+    if (categorias && Array.isArray(categorias)) {
+      selectElement.innerHTML =
+        '<option value="" disabled selected>Selecciona una categoría</option>';
+
+      categorias.forEach((categoria) => {
+        const option = document.createElement("option");
+        option.value = categoria.nombre.toLowerCase();
+        option.textContent = categoria.nombre;
+        selectElement.appendChild(option);
+      });
+    } else {
+      console.error("No se encontraron categorías en localStorage.");
+    }
+  }
+
+  function guardarCategoriasEnStorage() {
+    localStorage.setItem("categorias", JSON.stringify(categorias));
   }
 });
