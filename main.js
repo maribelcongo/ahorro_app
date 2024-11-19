@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const reportsSection = document.getElementById("reports_img");
   const listReportsSection = document.getElementById("list_reports");
   const mainContent = document.getElementById("main-content");
+  const sectionOperation = document.getElementById("section-operation");
 
   // Función para ocultar todas las secciones
   function hideAllSections() {
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     reportsSection.classList.add("hidden");
     listReportsSection.classList.add("hidden");
     mainContent.classList.remove("hidden");
+    sectionOperation.classList.add("hidden"); // Ocultar formulario de nueva operación
   }
 
   // Evento para mostrar secciones
@@ -71,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // ------------------------------------------------------------------------
+
 document.addEventListener("DOMContentLoaded", () => {
   // Referencias a elementos del DOM
   const btnNuevaOperacion = document.getElementById("show-operation");
@@ -96,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let operacionIdEdit;
   let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
 
-  // Asegurarse de que todas las operaciones tengan un campo id
   operaciones = operaciones.map((op) => {
     if (!op.id) {
       return {

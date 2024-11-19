@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
+  actualizarResumen(); // Actualiza el resumen al cargar la página
 
-  actualizarResumen();
-
+  // Evento para mostrar reportes
   const btnShowReports = document.getElementById("show-reports");
-
-  // Evento para mostrar reportes y actualizar resumen al hacer clic
   btnShowReports.addEventListener("click", () => {
     actualizarResumen(); // Actualiza el resumen al hacer clic
     const reportSection = document.getElementById("report-section");
@@ -35,8 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     operaciones.push(nuevaOperacion);
-    localStorage.setItem("operaciones", JSON.stringify(operaciones));
-    actualizarResumen(); // Actualiza el resumen al agregar operación
+    localStorage.setItem("operaciones", JSON.stringify(operaciones)); // Guardar operaciones en localStorage
+
+    actualizarResumen();
   }
 
   // Función para actualizar el resumen
@@ -129,6 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("reporte-resumen").innerHTML = ""; // Limpia el resumen
     }
   }
+
+  // Totales por Categorías
   function totalesPorCategorias() {
     const categorias = {};
     operaciones.forEach((op) => {
@@ -152,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarTotalesPorCategorias(balancePorCategoria);
   }
 
+  // Mostrar Totales por Categorías
   function mostrarTotalesPorCategorias(totales) {
     const tablaCategorias = `
       <div class="bg-gray-100 p-4 rounded-md mt-4">
@@ -171,15 +173,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 (c) => `
               <tr>
                 <td class="px-4 py-2 border border-gray-300">${c.nombre}</td>
-                <td class="px-4 py-2 border border-gray-300">${c.ganancias.toFixed(
-                  2
-                )}</td>
-                <td class="px-4 py-2 border border-gray-300">${c.gastos.toFixed(
-                  2
-                )}</td>
-                <td class="px-4 py-2 border border-gray-300">${c.balance.toFixed(
-                  2
-                )}</td>
+                <td class="px-4 py-2 border border-gray-300 ${
+                  c.ganancias >= 0 ? "text-green-500" : ""
+                }">${c.ganancias.toFixed(2)}</td>
+                <td class="px-4 py-2 border border-gray-300 ${
+                  c.gastos >= 0 ? "text-red-500" : ""
+                }">${c.gastos.toFixed(2)}</td>
+                <td class="px-4 py-2 border border-gray-300 ${
+                  c.balance >= 0 ? "text-green-500" : "text-red-500"
+                }">${c.balance.toFixed(2)}</td>
               </tr>
             `
               )
@@ -191,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("totales-categorias").innerHTML = tablaCategorias;
   }
 
+  // Totales por Mes
   function totalesPorMes() {
     const meses = {};
     operaciones.forEach((op) => {
@@ -216,6 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarTotalesPorMes(totalesPorMesArray);
   }
 
+  // Mostrar Totales por Mes
   function mostrarTotalesPorMes(totales) {
     const contenedor = document.getElementById("totales-meses");
     const tablaMeses = `
@@ -256,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     contenedor.innerHTML = tablaMeses;
   }
 
+  // Funciones para obtener los reportes más importantes
   function obtenerCategoriaMayorGanancia() {
     const categorias = {};
     operaciones.forEach((op) => {
