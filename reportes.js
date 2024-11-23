@@ -1,45 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
-  actualizarResumen(); // Actualiza el resumen al cargar la página
 
   // Evento para mostrar reportes
   const btnShowReports = document.getElementById("show-reports");
   btnShowReports.addEventListener("click", () => {
-    actualizarResumen(); // Actualiza el resumen al hacer clic
     const reportSection = document.getElementById("report-section");
     reportSection.classList.remove("hidden"); // Muestra la sección de reportes
-  });
-
-  // Función para agregar una nueva operación
-  function agregarOperacion() {
-    const tipoOperacion = document.getElementById("tipo-operacion").value;
-    const categoria = document.getElementById("categories-select").value;
-    const monto = parseFloat(document.getElementById("monto-input").value);
-    const fechaInput = document.getElementById("date-operation").value;
-
-    const fechaSeleccionada = fechaInput ? new Date(fechaInput) : new Date();
-    const hoy = new Date();
-
-    if (fechaSeleccionada > hoy) {
-      alert("La fecha seleccionada no puede ser mayor que el día actual.");
-      return;
-    }
-
-    const nuevaOperacion = {
-      tipoOperacion,
-      categoria,
-      monto,
-      fecha: fechaSeleccionada.toISOString(),
-    };
-
-    operaciones.push(nuevaOperacion);
-    localStorage.setItem("operaciones", JSON.stringify(operaciones)); // Guardar operaciones en localStorage
-
-    actualizarResumen();
-  }
-
-  // Función para actualizar el resumen
-  function actualizarResumen() {
+    // Actualiza el resumen directamente al hacer clic en el botón
     const categoriaGanancia = obtenerCategoriaMayorGanancia();
     const categoriaGasto = obtenerCategoriaMayorGasto();
     const categoriaBalance = obtenerCategoriaMayorBalance();
@@ -52,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
       mesMayorGanancia.total > 0 ||
       mesMayorGasto.total > 0;
 
-    // Muestra u oculta las secciones según haya reportes
     const reportsImg = document.getElementById("reports_img");
     const listReports = document.getElementById("list_reports");
 
@@ -127,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
       listReports.classList.add("hidden");
       document.getElementById("reporte-resumen").innerHTML = ""; // Limpia el resumen
     }
-  }
+  });
 
   // Totales por Categorías
   function totalesPorCategorias() {
@@ -221,7 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Mostrar Totales por Mes
   function mostrarTotalesPorMes(totales) {
-    const contenedor = document.getElementById("totales-meses");
     const tablaMeses = `
       <div class="bg-gray-100 p-4 rounded-md mt-4">
         <h2 class="font-semibold">Totales por Mes</h2>
@@ -240,15 +205,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 (m) => `
               <tr>
                 <td class="px-4 py-2 border border-gray-300">${m.mes}</td>
-                <td class="px-4 py-2 border border-gray-300">${m.ganancias.toFixed(
-                  2
-                )}</td>
-                <td class="px-4 py-2 border border-gray-300">${m.gastos.toFixed(
-                  2
-                )}</td>
-                <td class="px-4 py-2 border border-gray-300">${m.balance.toFixed(
-                  2
-                )}</td>
+                <td class="px-4 py-2 border border-gray-300 ${
+                  m.ganancias >= 0 ? "text-green-500" : ""
+                }">${m.ganancias.toFixed(2)}</td>
+                <td class="px-4 py-2 border border-gray-300 ${
+                  m.gastos >= 0 ? "text-red-500" : ""
+                }">${m.gastos.toFixed(2)}</td>
+                <td class="px-4 py-2 border border-gray-300 ${
+                  m.balance >= 0 ? "text-green-500" : "text-red-500"
+                }">${m.balance.toFixed(2)}</td>
               </tr>
             `
               )
@@ -257,12 +222,14 @@ document.addEventListener("DOMContentLoaded", () => {
         </table>
       </div>
     `;
-    contenedor.innerHTML = tablaMeses;
+    document.getElementById("totales-meses").innerHTML = tablaMeses;
   }
 
-  // Funciones para obtener los reportes más importantes
+  // Funciones para obtener el mayor valor de cada categoría y mes
   function obtenerCategoriaMayorGanancia() {
+    let categoria = { nombre: "", total: 0 };
     const categorias = {};
+
     operaciones.forEach((op) => {
       if (op.tipoOperacion === "ganancia") {
         if (!categorias[op.categoria]) {
@@ -272,18 +239,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    let maxCategoria = { nombre: "", total: 0 };
-    for (const categoria in categorias) {
-      if (categorias[categoria] > maxCategoria.total) {
-        maxCategoria = { nombre: categoria, total: categorias[categoria] };
+    for (const categoriaNombre in categorias) {
+      if (categorias[categoriaNombre] > categoria.total) {
+        categoria = {
+          nombre: categoriaNombre,
+          total: categorias[categoriaNombre],
+        };
       }
     }
-
-    return maxCategoria;
+    return categoria;
   }
 
   function obtenerCategoriaMayorGasto() {
+    let categoria = { nombre: "", total: 0 };
     const categorias = {};
+
     operaciones.forEach((op) => {
       if (op.tipoOperacion === "gasto") {
         if (!categorias[op.categoria]) {
@@ -293,18 +263,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    let maxCategoria = { nombre: "", total: 0 };
-    for (const categoria in categorias) {
-      if (categorias[categoria] > maxCategoria.total) {
-        maxCategoria = { nombre: categoria, total: categorias[categoria] };
+    for (const categoriaNombre in categorias) {
+      if (categorias[categoriaNombre] > categoria.total) {
+        categoria = {
+          nombre: categoriaNombre,
+          total: categorias[categoriaNombre],
+        };
       }
     }
-
-    return maxCategoria;
+    return categoria;
   }
 
   function obtenerCategoriaMayorBalance() {
+    let categoria = { nombre: "", balance: 0 };
     const categorias = {};
+
     operaciones.forEach((op) => {
       if (!categorias[op.categoria]) {
         categorias[op.categoria] = { ganancias: 0, gastos: 0 };
@@ -316,61 +289,62 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    let maxCategoria = { nombre: "", balance: 0 };
-    for (const categoria in categorias) {
+    for (const categoriaNombre in categorias) {
       const balance =
-        categorias[categoria].ganancias - categorias[categoria].gastos;
-      if (balance > maxCategoria.balance) {
-        maxCategoria = { nombre: categoria, balance: balance };
+        categorias[categoriaNombre].ganancias -
+        categorias[categoriaNombre].gastos;
+      if (balance > categoria.balance) {
+        categoria = { nombre: categoriaNombre, balance: balance };
       }
     }
-
-    return maxCategoria;
+    return categoria;
   }
 
   function obtenerMesMayorGanancia() {
+    let mes = { mes: "", total: 0 };
     const meses = {};
+
     operaciones.forEach((op) => {
       const fecha = new Date(op.fecha);
-      const mes = `${fecha.getFullYear()}-${fecha.getMonth() + 1}`;
-      if (!meses[mes]) {
-        meses[mes] = 0;
-      }
+      const mesKey = `${fecha.getFullYear()}-${fecha.getMonth() + 1}`;
+
       if (op.tipoOperacion === "ganancia") {
-        meses[mes] += op.monto;
+        if (!meses[mesKey]) {
+          meses[mesKey] = 0;
+        }
+        meses[mesKey] += op.monto;
       }
     });
 
-    let mesMayor = { mes: "", total: 0 };
-    for (const mes in meses) {
-      if (meses[mes] > mesMayor.total) {
-        mesMayor = { mes: mes, total: meses[mes] };
+    for (const mesKey in meses) {
+      if (meses[mesKey] > mes.total) {
+        mes = { mes: mesKey, total: meses[mesKey] };
       }
     }
-
-    return mesMayor;
+    return mes;
   }
 
   function obtenerMesMayorGasto() {
+    let mes = { mes: "", total: 0 };
     const meses = {};
+
     operaciones.forEach((op) => {
       const fecha = new Date(op.fecha);
-      const mes = `${fecha.getFullYear()}-${fecha.getMonth() + 1}`;
-      if (!meses[mes]) {
-        meses[mes] = 0;
-      }
+      const mesKey = `${fecha.getFullYear()}-${fecha.getMonth() + 1}`;
+
       if (op.tipoOperacion === "gasto") {
-        meses[mes] += op.monto;
+        if (!meses[mesKey]) {
+          meses[mesKey] = 0;
+        }
+        meses[mesKey] += op.monto;
       }
     });
 
-    let mesMayor = { mes: "", total: 0 };
-    for (const mes in meses) {
-      if (meses[mes] > mesMayor.total) {
-        mesMayor = { mes: mes, total: meses[mes] };
+    for (const mesKey in meses) {
+      if (meses[mesKey] > mes.total) {
+        mes = { mes: mesKey, total: meses[mesKey] };
       }
     }
-
-    return mesMayor;
+    return mes;
   }
 });
