@@ -1,23 +1,3 @@
-// ------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const filterLabel = document.getElementById("filter-label");
-  const filtersDiv = document.getElementById("filters");
-
-  filterLabel.addEventListener("click", (event) => {
-    event.preventDefault(); // Evita que el enlace recargue la página
-
-    if (
-      filtersDiv.style.display === "none" ||
-      filtersDiv.style.display === ""
-    ) {
-      filtersDiv.style.display = "block";
-      filterLabel.textContent = "Ocultar filtros";
-    } else {
-      filtersDiv.style.display = "none";
-      filterLabel.textContent = "Mostrar filtros";
-    }
-  });
-});
 document.addEventListener("DOMContentLoaded", () => {
   // Referencias a elementos del DOM
   const typeFilter = document.getElementById("type-filter");
@@ -30,6 +10,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Cargar operaciones desde localStorage
   let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
+
+  // Cargar categorías desde localStorage o usar las por defecto
+  let categorias = JSON.parse(localStorage.getItem("categorias")) || [
+    { id: "1", nombre: "Comida" },
+    { id: "2", nombre: "Salidas" },
+    { id: "3", nombre: "Trabajo" },
+    { id: "4", nombre: "Transporte" },
+    { id: "5", nombre: "Educación" },
+    { id: "6", nombre: "Servicios" },
+  ];
+
+  // Actualizar el filtro de categorías
+  function actualizarFiltroCategorias() {
+    // Limpiar el contenido actual del filtro de categorías
+    categoryFilter.innerHTML = '<option value="todas">Todas</option>';
+
+    // Agregar las categorías al filtro
+    categorias.forEach((categoria) => {
+      const option = document.createElement("option");
+      option.value = categoria.nombre.toLowerCase();
+      option.textContent = categoria.nombre;
+      categoryFilter.appendChild(option);
+    });
+  }
+
+  // Inicializar el filtro de categorías
+  actualizarFiltroCategorias();
 
   // Agregar listeners para los filtros
   typeFilter.addEventListener("change", aplicarFiltros);
@@ -53,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const categoriaSeleccionada = categoryFilter.value;
     if (categoriaSeleccionada !== "todas") {
       filtradas = filtradas.filter(
-        (op) => op.categoria === categoriaSeleccionada
+        (op) => op.categoria.toLowerCase() === categoriaSeleccionada
       );
     }
 
@@ -107,28 +114,33 @@ document.addEventListener("DOMContentLoaded", () => {
           "border-gray-300"
         );
 
+        const montoColor =
+          operacion.tipoOperacion === "gasto"
+            ? "text-red-500"
+            : "text-green-500";
+
         tr.innerHTML = `
-            <td class="flex-1 text-center">${operacion.descripcion}</td>
-            <td class="flex-1 text-center">${(operacion.monto || 0).toFixed(
-              2
-            )}</td>
-            <td class="flex-1 text-center">${operacion.categoria}</td>
-            <td class="flex-1 text-center">${operacion.fecha}</td>
-            <td class="flex-1 text-center">
-              <div class="flex justify-around">
-                <button class="bg-yellow-500 text-white px-2 py-1 rounded edit-btn" data-id="${
-                  operacion.id
-                }">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="bg-red-500 text-white px-2 py-1 rounded delete-btn" data-id="${
-                  operacion.id
-                }">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </td>
-          `;
+        <td class="flex-1 text-center">${operacion.descripcion}</td>
+        <td class="flex-1 text-center ${montoColor}">${(
+          operacion.monto || 0
+        ).toFixed(2)}</td>
+        <td class="flex-1 text-center">${operacion.categoria}</td>
+        <td class="flex-1 text-center">${operacion.fecha}</td>
+        <td class="flex-1 text-center">
+          <div class="flex justify-around">
+            <button class="bg-yellow-500 text-white px-2 py-1 rounded edit-btn" data-id="${
+              operacion.id
+            }">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="bg-red-500 text-white px-2 py-1 rounded delete-btn" data-id="${
+              operacion.id
+            }">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      `;
 
         operationsTableBody.appendChild(tr);
       });
@@ -152,14 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Función para mostrar el modal de eliminar
   function mostrarModalEliminar(event) {
     const operacionId = event.target.getAttribute("data-id");
-    // Lógica para mostrar el modal de eliminación
     console.log("Eliminar operación con ID:", operacionId);
   }
 
   // Función para editar la operación
   function editarOperacion(event) {
     const operacionId = event.target.getAttribute("data-id");
-
     console.log("Editar operación con ID:", operacionId);
   }
 });

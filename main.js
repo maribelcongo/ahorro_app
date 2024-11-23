@@ -135,6 +135,134 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarTablaOperaciones();
   actualizarBalance();
 
+  // --------------------------------------------------------------------------------------------
+
+  function actualizarResumen() {
+    // Calcular el total de ganancias y gastos por categoría
+    const categoriasResumen = categorias.map((categoria) => ({
+      nombre: categoria.nombre,
+      totalGanancias: 0,
+      totalGastos: 0,
+      balance: 0,
+    }));
+
+    operaciones.forEach((operacion) => {
+      const categoria = categoriasResumen.find(
+        (cat) => cat.nombre === operacion.categoria
+      );
+      if (categoria) {
+        if (operacion.tipoOperacion === "ganancia") {
+          categoria.totalGanancias += operacion.monto;
+        } else {
+          categoria.totalGastos += operacion.monto;
+        }
+        categoria.balance = categoria.totalGanancias - categoria.totalGastos;
+      }
+    });
+
+    // Calcular el mes con mayor ganancia y el mes con mayor gasto
+    const meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
+    ];
+
+    let mesMayorGanancia = { mes: "", total: 0 };
+    let mesMayorGasto = { mes: "", total: 0 };
+
+    operaciones.forEach((operacion) => {
+      const fechaOperacion = new Date(operacion.fecha);
+      const mes = meses[fechaOperacion.getMonth()];
+
+      if (operacion.tipoOperacion === "ganancia") {
+        if (!mesMayorGanancia[mes] || mesMayorGanancia[mes] < operacion.monto) {
+          mesMayorGanancia[mes] = operacion.monto;
+        }
+      } else {
+        if (!mesMayorGasto[mes] || mesMayorGasto[mes] < operacion.monto) {
+          mesMayorGasto[mes] = operacion.monto;
+        }
+      }
+    });
+
+    // Buscar la categoría con la mayor ganancia y el mayor gasto
+    const categoriaMayorGanancia = categoriasResumen.reduce(
+      (max, categoria) =>
+        categoria.totalGanancias > max.totalGanancias ? categoria : max,
+      { totalGanancias: 0 }
+    );
+
+    const categoriaMayorGasto = categoriasResumen.reduce(
+      (max, categoria) =>
+        categoria.totalGastos > max.totalGastos ? categoria : max,
+      { totalGastos: 0 }
+    );
+
+    // Mostrar el resumen en la UI
+    const resumenElement = document.getElementById("reporte-resumen");
+    resumenElement.innerHTML = `
+      <div class="bg-gray-100 p-4 rounded-md">
+        <h3 class="text-xl font-semibold mb-4">Resumen de Operaciones</h3>
+        <table class="min-w-full table-auto border-collapse border border-gray-300">
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="px-4 py-2 border border-gray-300 text-left font-semibold">Reporte</th>
+              <th class="px-4 py-2 border border-gray-300 text-left font-semibold">Categoría / Mes</th>
+              <th class="px-4 py-2 border border-gray-300 text-left font-semibold">Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="px-4 py-2 border border-gray-300">Categoría con mayor ganancia</td>
+              <td class="px-4 py-2 border border-gray-300">${
+                categoriaMayorGanancia.nombre || "N/A"
+              }</td>
+              <td class="px-4 py-2 border border-gray-300">${(
+                categoriaMayorGanancia.totalGanancias || 0
+              ).toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 border border-gray-300">Categoría con mayor gasto</td>
+              <td class="px-4 py-2 border border-gray-300">${
+                categoriaMayorGasto.nombre || "N/A"
+              }</td>
+              <td class="px-4 py-2 border border-gray-300">${(
+                categoriaMayorGasto.totalGastos || 0
+              ).toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 border border-gray-300">Mes con mayor ganancia</td>
+              <td class="px-4 py-2 border border-gray-300">${
+                mesMayorGanancia.mes || "N/A"
+              }</td>
+              <td class="px-4 py-2 border border-gray-300">${(
+                mesMayorGanancia.total || 0
+              ).toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 border border-gray-300">Mes con mayor gasto</td>
+              <td class="px-4 py-2 border border-gray-300">${
+                mesMayorGasto.mes || "N/A"
+              }</td>
+              <td class="px-4 py-2 border border-gray-300">${(
+                mesMayorGasto.total || 0
+              ).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+  // -----------------------------------------------------------------------------------------------------------------------
   btnNuevaOperacion.addEventListener("click", () => {
     sectionOperation.classList.remove("hidden");
     mainContent.classList.add("hidden");
@@ -187,6 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sectionOperation.classList.add("hidden");
     mainContent.classList.remove("hidden");
     actualizarBalance();
+    actualizarResumen();
   });
 
   function guardarOperacionesEnStorage() {
@@ -221,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarTablaOperaciones() {
-    operationsTableBody.innerHTML = "";
+    operationsTableBody.innerHTML = ""; // Limpiar el contenido actual de la tabla
 
     if (operaciones.length === 0) {
       noOperationsDiv.classList.remove("hidden");
@@ -241,37 +370,39 @@ document.addEventListener("DOMContentLoaded", () => {
           "border-gray-300",
           "gap-8"
         );
+
         const montoClass =
           operacion.tipoOperacion === "ganancia"
             ? "text-green-500"
             : "text-red-500";
 
+        // Crear la fila con los datos de la operación
         tr.innerHTML = `
-                <td class="flex-1 text-center">${operacion.descripcion}</td>
-               <td class="flex-1 text-center ${montoClass}">${(
+          <td class="flex-1 text-center">${operacion.descripcion}</td>
+          <td class="flex-1 text-center ${montoClass}">${(
           operacion.monto || 0
         ).toFixed(2)}</td>
-                <td class="flex-1 text-center">${operacion.categoria}</td>
-                <td class="flex-1 text-center">${operacion.fecha}</td>
-                <td class="flex-1 text-center">
-                    <div class="flex justify-around">
-                        <button class=" px-1  rounded edit-btn" data-id="${
-                          operacion.id
-                        }">
-                            <i class="fas fa-edit   text-yellow-600"></i>
-                        </button>
-                        <button class=" px-1   rounded delete-btn" data-id="${
-                          operacion.id
-                        }">
-                            <i class="fas fa-trash text-red-600"></i>
-                        </button>
-                    </div>
-                </td>
-            `;
+          <td class="flex-1 text-center">${operacion.categoria}</td>
+          <td class="flex-1 text-center">${operacion.fecha}</td>
+          <td class="flex-1 text-center">
+            <div class="flex justify-around">
+              <button class=" px-1  rounded edit-btn" data-id="${operacion.id}">
+                <i class="fas fa-edit text-yellow-600"></i>
+              </button>
+              <button class=" px-1 rounded delete-btn" data-id="${
+                operacion.id
+              }">
+                <i class="fas fa-trash text-red-600"></i>
+              </button>
+            </div>
+          </td>
+        `;
 
+        // Agregar la fila a la tabla
         operationsTableBody.appendChild(tr);
       });
 
+      // Agregar los eventos para los botones de edición y eliminación
       document.querySelectorAll(".delete-btn").forEach((button) => {
         button.addEventListener("click", mostrarModalEliminar);
       });
@@ -307,6 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
     guardarOperacionesEnStorage(); // Guardar cambios en localStorage
     actualizarTablaOperaciones();
     actualizarBalance();
+    actualizarResumen();
   }
 
   function editarOperacion(event) {
@@ -366,6 +498,7 @@ document.addEventListener("DOMContentLoaded", () => {
       actualizarTablaOperaciones();
       actualizarBalance();
       limpiarFormulario();
+      actualizarResumen();
       editOperationSection.classList.add("hidden");
       mainContent.classList.remove("hidden");
     });
